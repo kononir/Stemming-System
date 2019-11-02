@@ -1,4 +1,4 @@
-package com.bsuir.stemsys.entity;
+package com.bsuir.stemsys.model;
 
 public class StemResult {
     private String base;

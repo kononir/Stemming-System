@@ -1,4 +1,4 @@
-package com.bsuir.stemsys.api;
+package com.bsuir.stemsys.api.data;
 
 import java.util.List;
 

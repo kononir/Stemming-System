@@ -1,6 +1,6 @@
 package com.bsuir.stemsys.data;
 
-import com.bsuir.stemsys.api.DocumentParser;
+import com.bsuir.stemsys.api.data.DocumentParser;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.bsuir.stemsys.entity;
+package com.bsuir.stemsys.model;
 
 public enum Language {
     ENGLISH,
