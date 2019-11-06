@@ -7,8 +7,6 @@ import com.bsuir.stemsys.api.service.LanguageDefinerService;
 import com.bsuir.stemsys.api.service.StemmingService;
 import com.bsuir.stemsys.api.service.StopwordsService;
 import com.bsuir.stemsys.api.service.StopwordsServiceFactory;
-import com.bsuir.stemsys.api.stemmer.Stemmer;
-import com.bsuir.stemsys.api.stemmer.StemmerFactory;
 import com.bsuir.stemsys.model.Language;
 import com.bsuir.stemsys.model.StemResult;
 
@@ -46,10 +44,11 @@ public class Director {
             StopwordsService stopwordsService = stopwordsServiceFactory.create(language);
             List<String> nonStopwords = stopwordsService.excludeStopwords(words);
             List<StemResult> stemResults = stemmingService.stem(nonStopwords, language);
-            writer.write(stemResults, resultsPath);
 
             documentsStemResults.put(path, stemResults);
         }
+
+        writer.write(documentsStemResults, resultsPath);
 
         return documentsStemResults;
     }

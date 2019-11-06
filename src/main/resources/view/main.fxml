@@ -7,10 +7,14 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:id="root"
       fx:controller="com.bsuir.stemsys.controller.MainController"
-      prefHeight="400.0" prefWidth="600.0" alignment="TOP_CENTER">
-    <Button text="Choose stemming file" onAction="#controlChoosingStemmingFile"/>
-    <Text fx:id="chosenStemmingFilePath"/>
-    <Button text="Choose saving directory" onAction="#controlChoosingSavingFile"/>
+      prefHeight="400.0" prefWidth="600.0" alignment="CENTER">
+    <Button onAction="#controlShowingHelp">Show help</Button>
+
+    <Button text="Choose stemming files" onAction="#controlChoosingStemmingFiles"/>
+    <VBox fx:id="chosenStemmingFilePath" alignment="CENTER"/>
+
+    <Button text="Choose saving file" onAction="#controlChoosingSavingFile"/>
     <Text fx:id="chosenSavingFilePath"/>
+
     <Button text="Perform stem" onAction="#controlPerformingStem"/>
 </VBox>

@@ -1,4 +1,4 @@
-package com.bsuir.stemsys.data.read;
+package com.bsuir.stemsys.data.reader;
 
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;

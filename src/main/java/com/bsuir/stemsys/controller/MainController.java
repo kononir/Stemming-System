@@ -7,33 +7,45 @@ import com.bsuir.stemsys.api.data.StemResultsWriter;
 import com.bsuir.stemsys.api.service.LanguageDefinerService;
 import com.bsuir.stemsys.api.service.StemmingService;
 import com.bsuir.stemsys.api.service.StopwordsServiceFactory;
-import com.bsuir.stemsys.data.HtmlParser;
-import com.bsuir.stemsys.data.JSONStemResultsWriter;
-import com.bsuir.stemsys.data.read.TextDocumentReader;
-import com.bsuir.stemsys.service.FrequencyShortLanguageDefinerService;
+import com.bsuir.stemsys.data.parser.HtmlParser;
+import com.bsuir.stemsys.data.parser.WordsParser;
+import com.bsuir.stemsys.data.writer.JSONStemResultsWriter;
+import com.bsuir.stemsys.data.reader.text.TextDocumentReader;
+import com.bsuir.stemsys.model.StemResult;
+import com.bsuir.stemsys.service.FrequencyLanguageDefinerService;
 import com.bsuir.stemsys.service.StemmingServiceImpl;
-import com.bsuir.stemsys.service.StopwordsServiceFactoryImpl;
+import com.bsuir.stemsys.service.stopwords.StopwordsServiceFactoryImpl;
 import com.bsuir.stemsys.stemmer.StemmerFactoryImpl;
+import com.bsuir.stemsys.view.ErrorAlert;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class MainController {
+    private static final String RESULTS_FXML_FILE_PATH = "view/results.fxml";
+
     private DocumentReader reader = new TextDocumentReader();
-    private DocumentParser parser = new HtmlParser();
-    private LanguageDefinerService languageDefinerService = new FrequencyShortLanguageDefinerService();
+    private DocumentParser parser = new HtmlParser(new WordsParser());
+    private LanguageDefinerService languageDefinerService = new FrequencyLanguageDefinerService();
     private StopwordsServiceFactory stopwordsServiceFactory = new StopwordsServiceFactoryImpl();
     private StemmingService stemmingService = new StemmingServiceImpl(new StemmerFactoryImpl());
     private StemResultsWriter stemResultsWriter = new JSONStemResultsWriter();
 
     @FXML
-    public Text chosenStemmingFilePath;
+    public VBox chosenStemmingFilePath;
     @FXML
     public Text chosenSavingFilePath;
     @FXML
@@ -43,11 +55,19 @@ public class MainController {
     private String savingFilePath;
 
     @FXML
-    private void controlChoosingStemmingFile() {
+    private void controlChoosingStemmingFiles() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("HTML", "*.html"));
         List<File> chosenStemmingFiles = fileChooser.showOpenMultipleDialog(root.getScene().getWindow());
-        stemmingFilePath = getStemmingFilePath(chosenStemmingFiles);
+        if (chosenStemmingFiles != null) {
+            stemmingFilePath = getStemmingFilePath(chosenStemmingFiles);
+
+            ObservableList<Node> children = chosenStemmingFilePath.getChildren();
+            children.clear();
+            for (String path : stemmingFilePath) {
+                children.add(new Text(path));
+            }
+        }
     }
 
     @FXML
@@ -55,28 +75,50 @@ public class MainController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
         File savingFile = fileChooser.showSaveDialog(root.getScene().getWindow());
-        savingFilePath = savingFile.getPath();
+        if (savingFile != null) {
+            savingFilePath = savingFile.getPath();
+            chosenSavingFilePath.setText(savingFilePath);
+        }
     }
 
     @FXML
     private void controlPerformingStem() {
-        if (stemmingFilePath == null || savingFilePath == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Error");
-            alert.setContentText("Please, choose stemming and saving files before perform stem");
+        try {
+            if (stemmingFilePath == null || savingFilePath == null) {
+                new ErrorAlert().show("Please, choose stemming and saving files before perform stem");
+                return;
+            }
 
-            alert.show();
+            Director director = new Director(reader, parser, languageDefinerService,
+                    stopwordsServiceFactory, stemmingService, stemResultsWriter);
+            Map<String, List<StemResult>> documentsStemResults = director.handleWork(stemmingFilePath, savingFilePath);
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource(RESULTS_FXML_FILE_PATH));
+            Parent root = loader.load();
+
+            ResultsController resultsController = loader.getController();
+            resultsController.controlShowingResults(documentsStemResults, savingFilePath);
+
+            Scene scene = new Scene(root);
+
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Stem results");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
 
-        Director director = new Director(reader, parser, languageDefinerService,
-                stopwordsServiceFactory, stemmingService, stemResultsWriter);
-        director.handleWork(stemmingFilePath, savingFilePath);
+    @FXML
+    private void controlShowingHelp() {
+
     }
 
     private List<String> getStemmingFilePath(List<File> chosenSavingFiles) {
         return chosenSavingFiles.stream()
-                .map(File::getName)
+                .map(File::getPath)
                 .collect(Collectors.toList());
     }
 }

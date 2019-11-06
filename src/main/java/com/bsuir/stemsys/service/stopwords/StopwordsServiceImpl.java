@@ -1,7 +1,7 @@
-package com.bsuir.stemsys.service;
+package com.bsuir.stemsys.service.stopwords;
 
 import com.bsuir.stemsys.api.service.StopwordsService;
-import com.bsuir.stemsys.data.read.JSONReader;
+import com.bsuir.stemsys.data.reader.JSONReader;
 
 import java.util.ArrayList;
 import java.util.HashSet;

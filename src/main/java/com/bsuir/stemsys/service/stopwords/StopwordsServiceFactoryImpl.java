@@ -1,4 +1,4 @@
-package com.bsuir.stemsys.service;
+package com.bsuir.stemsys.service.stopwords;
 
 import com.bsuir.stemsys.api.service.StopwordsService;
 import com.bsuir.stemsys.api.service.StopwordsServiceFactory;
