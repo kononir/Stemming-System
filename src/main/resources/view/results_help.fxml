@@ -5,20 +5,18 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns="http://javafx.com/javafx"
-      id="root-pane" alignment="CENTER">
+      id="root-pane" alignment="CENTER"
+      stylesheets="@/style/main.css">
     <ImageView>
         <Image url="@/image/results_help.png"/>
     </ImageView>
     <Label id="image-annotation">
-        1 - Press to show calculated metrics
+        1 - Press to show help
     </Label>
     <Label id="image-annotation">
-        2 - Press to show help
+        2 - Saving file path (click to open file)
     </Label>
     <Label id="image-annotation">
-        3 - Time of searching documents by query
-    </Label>
-    <Label id="image-annotation">
-        4 - Results area (1 - title, 2 - path, 3 - snippet, 4 - rank)
+        3 - Results area (a - path, b - base, c - language, d - frequency)
     </Label>
 </VBox>

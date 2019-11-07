@@ -5,20 +5,27 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <VBox xmlns="http://javafx.com/javafx"
-      id="root-pane" alignment="CENTER">
+      id="root-pane" alignment="CENTER"
+      stylesheets="@/style/main.css">
     <ImageView>
         <Image url="@/image/main_help.png"/>
     </ImageView>
     <Label id="image-annotation">
-        1 - Input min rank of result document
+        1 - Press to show help
     </Label>
     <Label id="image-annotation">
-        2 - Press to show help
+        2 - Press to choose stemming files
     </Label>
     <Label id="image-annotation">
-        3 - Input search query
+        3 - Chosen stemming files path
     </Label>
     <Label id="image-annotation">
-        4 - Press to search (or press 'ENTER')
+        4 - Press to choose saving file (JSON format)
+    </Label>
+    <Label id="image-annotation">
+        5 - Chosen saving file path
+    </Label>
+    <Label id="image-annotation">
+        6 - Press to perform stem (or press 'ENTER')
     </Label>
 </VBox>

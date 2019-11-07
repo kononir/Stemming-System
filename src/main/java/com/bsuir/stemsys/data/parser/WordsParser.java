@@ -22,8 +22,7 @@ public class WordsParser implements DocumentParser {
                                 text.getBytes(StandardCharsets.UTF_8))))) {
             parsed = new ArrayList<>();
             String line;
-            Pattern pattern = Pattern.compile("[^\\w]+",
-                    Pattern.CASE_INSENSITIVE + Pattern.UNICODE_CHARACTER_CLASS);
+            Pattern pattern = Pattern.compile("([^\\w]|\\d)+", Pattern.UNICODE_CHARACTER_CLASS);
             while ((line = reader.readLine()) != null) {
                 String[] words = pattern.split(line);
                 for (String word : words) {

@@ -23,7 +23,7 @@ public class StemmingServiceImpl implements StemmingService {
 
         Map<String, Integer> wordBasisWithFrequency = new HashMap<>();
         for (String word : textWords) {
-            String basis = stemmer.stem(word);
+            String basis = stemmer.stem(word).toLowerCase();
             if (wordBasisWithFrequency.containsKey(basis)) {
                 wordBasisWithFrequency.put(basis, wordBasisWithFrequency.get(basis) + 1);
             } else {

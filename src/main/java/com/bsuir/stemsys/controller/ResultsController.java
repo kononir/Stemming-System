@@ -36,11 +36,12 @@ public class ResultsController {
             VBox documentResultsVBox = new VBox();
             documentResultsVBox.setId("document-results");
             for (StemResult stemResult : entry.getValue()) {
-                Text baseText = new Text(stemResult.getBase());
-                Text languageText = new Text(stemResult.getLanguage().name());
-                Text frequencyText = new Text(String.valueOf(stemResult.getFrequency()));
+                Text baseText = new Text("Base: " + stemResult.getBase());
+                Text languageText = new Text("Language: " + stemResult.getLanguage().name().toLowerCase());
+                Text frequencyText = new Text("Frequency: " + stemResult.getFrequency());
 
                 VBox resultVBox = new VBox(baseText, languageText, frequencyText);
+                resultVBox.setId("result");
                 documentResultsVBox.getChildren().add(resultVBox);
             }
 
