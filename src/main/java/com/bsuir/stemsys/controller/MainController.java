@@ -23,6 +23,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -36,6 +38,7 @@ import java.util.stream.Collectors;
 
 public class MainController {
     private static final String RESULTS_FXML_FILE_PATH = "view/results.fxml";
+    private static final String HELP_FXML_FILE_PATH = "view/main_help.fxml";
 
     private DocumentReader reader = new TextDocumentReader();
     private DocumentParser parser = new HtmlParser(new WordsParser());
@@ -53,6 +56,13 @@ public class MainController {
 
     private List<String> stemmingFilePath;
     private String savingFilePath;
+
+    @FXML
+    private void controlPressingButton(KeyEvent event) {
+        if (KeyCode.ENTER.equals(event.getCode())) {
+            controlPerformingStem();
+        }
+    }
 
     @FXML
     private void controlChoosingStemmingFiles() {
@@ -113,7 +123,17 @@ public class MainController {
 
     @FXML
     private void controlShowingHelp() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(HELP_FXML_FILE_PATH));
+            Scene scene = new Scene(root);
 
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Help");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private List<String> getStemmingFilePath(List<File> chosenSavingFiles) {

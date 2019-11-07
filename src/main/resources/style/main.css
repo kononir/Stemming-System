@@ -1,0 +1,30 @@
+#root-pane {
+    -fx-pref-height: 400;
+    -fx-pref-width: 600;
+
+    -fx-spacing: 10px;
+    -fx-padding: 10px;
+
+    -fx-font-family: Georgia;
+    -fx-font-size: 15px;
+}
+
+#file-paths {
+    -fx-spacing: 5px;
+}
+
+#document, #document-results {
+    -fx-spacing: 15px;
+}
+
+#results {
+    -fx-spacing: 30px;
+}
+
+#results-scroll {
+    -fx-padding: 5px;
+}
+
+#active-link {
+    -fx-fill: green;
+}

@@ -8,14 +8,15 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.bsuir.stemsys.controller.ResultsController"
-      prefHeight="400.0" prefWidth="600.0">
+      id="root-pane"
+      stylesheets="@/style/main.css">
     <Button onAction="#controlShowingHelp">Show help</Button>
 
     <Label>Saving file: </Label>
-    <Text id="saving-file" fx:id="savingFileText"/>
+    <Text id="active-link" fx:id="savingFileText"/>
 
     <Label>Results: </Label>
-    <ScrollPane>
+    <ScrollPane id="results-scroll">
         <VBox id="results" fx:id="resultsVBox"/>
     </ScrollPane>
 </VBox>
